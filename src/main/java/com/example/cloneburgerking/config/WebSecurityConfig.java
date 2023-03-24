@@ -48,7 +48,9 @@ public class WebSecurityConfig {
         // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/signup").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/signup").permitAll()
                 .antMatchers( "/api/login").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
@@ -67,7 +69,7 @@ public class WebSecurityConfig {
 
         // 사전에 약속된 출처를 명시
         config.addAllowedOrigin("http://localhost:3000");
-        config.addAllowedOrigin("http://halleluyah22.s3-website.ap-northeast-2.amazonaws.com");
+        config.addAllowedOrigin(""); // 추후 프론트 서버 배포주소
 
         // 특정 헤더를 클라이언트 측에서 사용할 수 있게 지정
         // 만약 지정하지 않는다면, Authorization 헤더 내의 토큰 값을 사용할 수 없음
