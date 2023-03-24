@@ -1,4 +1,4 @@
-package com.example.cloneburgerking;
+package com.sparta.cloneburgerking;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
