@@ -1,7 +1,7 @@
-package com.sparta.cloneburgerking.security;
+package com.example.cloneburgerking.security;
 
-import com.sparta.mini.member.entity.Member;
-import com.sparta.mini.member.entity.MemberRoleEnum;
+import com.example.cloneburgerking.entity.User;
+import com.example.cloneburgerking.entity.USerRoleEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,22 +11,22 @@ import java.util.Collection;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private final Member member;
+    private final User user;
     private final String username;
 
 
-    public UserDetailsImpl(Member member, String username) {
+    public UserDetailsImpl(User user, String username) {
         this.member = member;
         this.username = username;
     }
 
-    public Member getMember() {
-        return member;
+    public User getUser() {
+        return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        MemberRoleEnum role = member.getRole();
+        UserRoleEnum role = user.getRole();
         String authority = role.getAuthority();
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);

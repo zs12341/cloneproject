@@ -1,7 +1,7 @@
-package com.sparta.cloneburgerking.config;
+package com.example.cloneburgerking.config;
 
-import com.sparta.cloneburgerking.jwt.JwtAuthFilter;
-import com.sparta.cloneburgerking.jwt.JwtUtil;
+import com.example.cloneburgerking.jwt.JwtAuthFilter;
+import com.example.cloneburgerking.jwt.JwtUtil;
 import com.sparta.mini.exeption.ExceptionHandlerFilter;
 import com.sparta.mini.jwt.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;

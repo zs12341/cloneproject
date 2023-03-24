@@ -1,4 +1,4 @@
-package com.sparta.cloneburgerking.jwt;
+package com.example.cloneburgerking.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
