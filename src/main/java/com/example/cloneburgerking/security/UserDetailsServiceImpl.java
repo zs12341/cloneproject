@@ -1,71 +1,30 @@
 package com.example.cloneburgerking.security;
 
 import com.example.cloneburgerking.entity.User;
-import com.example.cloneburgerking.entity.USerRoleEnum;
 import com.example.cloneburgerking.entity.UserEnum;
+import com.example.cloneburgerking.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDetailsImpl implements UserDetails {
-
-    private final User user;
-    private final String username;
-
-
-    public UserDetailsImpl(User user, String username) {
-        this.user = user;
-        this.username = username;
-    }
-
-    public user getUser() {
-        return user;
-    }
+@Service
+@RequiredArgsConstructor
+public class UserDetailsServiceImpl implements UserDetailsService {
+    private final UserRepository userRepository;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserEnum role = user.getRole();
-        String authority = role.getAuthority();
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(simpleGrantedAuthority);
-
-        return authorities;
+        return new UserDetailsImpl(user, user.getUsername());
     }
 
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 }

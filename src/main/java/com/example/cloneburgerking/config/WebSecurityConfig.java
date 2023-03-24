@@ -2,8 +2,7 @@ package com.example.cloneburgerking.config;
 
 import com.example.cloneburgerking.jwt.JwtAuthFilter;
 import com.example.cloneburgerking.jwt.JwtUtil;
-import com.sparta.mini.exeption.ExceptionHandlerFilter;
-import com.sparta.mini.jwt.JwtAuthFilter;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -52,8 +51,8 @@ public class WebSecurityConfig {
         http.authorizeRequests().antMatchers("/api/signup").permitAll()
                 .antMatchers( "/api/login").permitAll()
                 .anyRequest().authenticated()
-                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new ExceptionHandlerFilter(), JwtAuthFilter.class);
+                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+
         http.cors();
 
 //        http.formLogin().loginPage("/api/auth/login-page").permitAll();
