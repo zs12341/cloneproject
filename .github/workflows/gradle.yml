@@ -46,12 +46,14 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
           
       ## application.properties 파일 생성
+      - uses: actions/checkout@v3
       - run: touch ./src/main/resources/application.properties
       - run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
       - run: cat ./src/main/resources/application.properties
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
         shell: bash
+
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
