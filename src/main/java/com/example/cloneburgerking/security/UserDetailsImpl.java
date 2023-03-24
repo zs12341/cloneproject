@@ -1,10 +1,9 @@
 package com.example.cloneburgerking.security;
 
 import com.example.cloneburgerking.entity.User;
-import com.example.cloneburgerking.entity.UserRoleEnum;
+import com.example.cloneburgerking.entity.UserEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -21,13 +20,13 @@ public class UserDetailsImpl implements UserDetails {
         this.username = username;
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserRoleEnum role = user.getRole();
+        UserEnum role = user.getRole();
         String authority = role.getAuthority();
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);

@@ -2,6 +2,7 @@ package com.example.cloneburgerking.security;
 
 import com.example.cloneburgerking.entity.User;
 import com.example.cloneburgerking.entity.USerRoleEnum;
+import com.example.cloneburgerking.entity.UserEnum;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,17 +17,17 @@ public class UserDetailsImpl implements UserDetails {
 
 
     public UserDetailsImpl(User user, String username) {
-        this.member = member;
+        this.user = user;
         this.username = username;
     }
 
-    public User getUser() {
+    public user getUser() {
         return user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        UserRoleEnum role = user.getRole();
+        UserEnum role = user.getRole();
         String authority = role.getAuthority();
 
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);

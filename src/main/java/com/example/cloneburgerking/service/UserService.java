@@ -5,6 +5,7 @@ import com.example.cloneburgerking.dto.SecurityExceptionDto;
 import com.example.cloneburgerking.dto.SignupRequestDto;
 import com.example.cloneburgerking.entity.User;
 import com.example.cloneburgerking.entity.UserEnum;
+import com.example.cloneburgerking.jwt.JwtUtil;
 import com.example.cloneburgerking.repository.UserRepository;
 import com.example.cloneburgerking.status.CustomException;
 import com.example.cloneburgerking.status.ErrorCode;
