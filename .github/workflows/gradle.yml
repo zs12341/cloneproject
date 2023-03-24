@@ -1,5 +1,5 @@
 # Repository의 Actions 탭에 나타날 Workflow 이름
-name: gotchukCI-test
+name: burgerking-CI
 
 # on: Workflow를 실행시키기 위한 Event 목록
 # 하단 코드에 따라 develop 브랜치에 Push 또는 Pull Request 이벤트가 발생한 경우에 Workflow가 실행
