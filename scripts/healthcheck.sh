@@ -15,12 +15,12 @@
   fi
 
   # 새로 띄운 서버 헬스체크
-  echo "> Health check of WAS at '<http://127.0.0.1>:${TARGET_PORT}' ..."
+  echo "> Health check of WAS at 'http://127.0.0.1:${TARGET_PORT}' ..."
 
   for RETRY_COUNT in $(seq 10);
   do
       echo "> #${RETRY_COUNT} trying..."
-      RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"  <http://127.0.0.1>:${TARGET_PORT}/health)
+      RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}"  http://127.0.0.1:${TARGET_PORT}/health)
       echo ${RESPONSE_CODE}
       if [ ${RESPONSE_CODE} -eq 200 ]; then
           echo "> New WAS successfully running"
