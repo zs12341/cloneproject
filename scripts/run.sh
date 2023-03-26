@@ -1,29 +1,37 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# run.sh
+  PROJECT_ROOT="/home/ubuntu/app"
+  JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
 
-CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
-TARGET_PORT=0
+  DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
+  APP_LOG="$PROJECT_ROOT/application.log"
+  ERROR_LOG="$PROJECT_ROOT/error.log"
 
-echo "> Current port of running WAS is ${CURRENT_PORT}."
+  TIME_NOW=$(date +%c)
 
-if [ ${CURRENT_PORT} -eq 8080 ]; then
-  TARGET_PORT=8081
-elif [ ${CURRENT_PORT} -eq 8081 ]; then
-  TARGET_PORT=8080
-else
-  echo "> No WAS is connected to nginx"
-fi
+  # CURRENT_PORT : 현재 구동중인 애플리케이션의 포트
+  CURRENT_PORT=$(cat /home/ubuntu/service_url.inc | grep -Po '[0-9]+' | tail -1)
+  # TARGET_PORT : 변경할 포트
+  TARGET_PORT=0
 
-TARGET_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
+  # 포트번호 변경
+  if [ $CURRENT_PORT -eq 8080 ]; then
+    TARGET_PORT=8081
+  elif [ $CURRENT_PORT -eq 8081 ]; then
+    TARGET_PORT=8080
+  else
+    echo "> No WAS is connected to nginx"
+  fi
 
-if [ ! -z ${TARGET_PID} ]; then
-  echo "> Kill WAS running at ${TARGET_PORT}."
-  sudo kill ${TARGET_PID}
-fi
+  # TARGET_PORT 구동중인 애플리케이션 pid
+  CURRENT_PID=$(lsof -Fp -i TCP:${TARGET_PORT} | grep -Po 'p[0-9]+' | grep -Po '[0-9]+')
 
-cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+  # TARGET_PORT 구동중이면 kill
+  if [ ! -z $CURRENT_PID ]; then
+    echo "$TIME_NOW > 실행중인 $CURRENT_PID 애플리케이션 종료 " >> $DEPLOY_LOG
+    kill -15 $CURRENT_PID
+  fi
 
-nohup java -jar -Dserver.port=${TARGET_PORT} /home/ubuntu/cloneburgerking/build/libs/* > /home/ubuntu/nohup.out 2>&1 &
-echo "> Now new WAS runs at ${TARGET_PORT}."
-exit 0
+  # 프로젝트 파일 복사 후 nohup 실행
+  cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+  nohup java -jar -Dserver.port=$TARGET_PORT $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
