@@ -25,11 +25,11 @@ import java.util.Map;
 @Controller
 public class NaverLoginController {
 
-    //@Value("${CLIENT_ID}")
-    private String CLIENT_ID = "fT0kKFTJFK1KuGkRtxoR"; //애플리케이션 클라이언트 아이디값";
+    @Value("${CLIENT_ID}")
+    private String CLIENT_ID; //애플리케이션 클라이언트 아이디값";
 
-    //@Value("${CLI_SECRET}")
-    private String CLI_SECRET = "wfQAFSW58l"; //애플리케이션 클라이언트 시크릿값";
+    @Value("${CLI_SECRET}")
+    private String CLI_SECRET; //애플리케이션 클라이언트 시크릿값";
 
 
     /**
@@ -42,7 +42,7 @@ public class NaverLoginController {
      */
     @RequestMapping("/naver")
     public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
-        String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback1", "UTF-8");
+        String redirectURI = URLEncoder.encode("http://localhost:3000/deliveryHome", "UTF-8");
         SecureRandom random = new SecureRandom();
         String state = new BigInteger(130, random).toString();
         String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -61,11 +61,11 @@ public class NaverLoginController {
      * @throws IOException
      * @throws ParseException
      */
-    @RequestMapping("/naver/callback1")
+    @RequestMapping("/naver/callback")
     public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
         String code = request.getParameter("code");
         String state = request.getParameter("state");
-        String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback1", "UTF-8");
+        String redirectURI = URLEncoder.encode("http://localhost:3000/deliveryHome", "UTF-8");
         String apiURL;
         apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
         apiURL += "client_id=" + CLIENT_ID;
