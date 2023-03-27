@@ -10,7 +10,7 @@ public class HealthCheckController {
 
     @GetMapping("/health")
     public ResponseEntity healthcheck(){
-        return ResponseEntity.ok("healthcheck 성공");
+        return ResponseEntity.ok("healthcheck 성공2222222");
     }
 
 }
