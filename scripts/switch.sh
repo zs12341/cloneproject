@@ -21,4 +21,4 @@
     echo "> Now Nginx proxies to ${TARGET_PORT}." >> $DEPLOY_LOG
 
     # nginx reload
-    sudo service nginx reload
+    sudo service nginx restart
