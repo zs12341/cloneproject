@@ -19,8 +19,6 @@ fi
 # Change proxying port into target port
 echo "set \$service_url http://127.0.0.1:${TARGET_PORT};" | tee /home/ubuntu/service_url.inc
 
-    # nginx reload
-    sudo service nginx restart
 echo "> Now Nginx proxies to ${TARGET_PORT}."
 
 # Reload nginx
