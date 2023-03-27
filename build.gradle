@@ -38,6 +38,10 @@ dependencies {
     //  S3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    // thymeleaf
+    compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compileOnly 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+
 }
 
 tasks.named('test') {
