@@ -2,6 +2,7 @@ package com.example.cloneburgerking.entity;
 
 
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.example.cloneburgerking.dto.MenuRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,9 +40,6 @@ public class Menu {
 
     }
 
-
-
-
     public String toString() {
         return "Menu{" +
                 "id=" + id +
@@ -50,14 +48,4 @@ public class Menu {
                 '}';
     }
 
-    public void updateMenu(MenuRequestDto menuRequestDto) {
-        this.title = menuRequestDto.getTitle();
-        this.s3Url = menuRequestDto.getUrl();
-        this.category = menuRequestDto.getCategory();
-        this.price = menuRequestDto.getPrice();
-    }
-
-    public String getKey() {
-        return null;
-    }
 }
