@@ -1,12 +1,12 @@
 package com.example.cloneburgerking.service;
 
-import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import com.example.cloneburgerking.entity.Menu;
+import com.example.cloneburgerking.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +19,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3 amazonS3;
+    private MenuRepository menuRepository;
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         System.out.println("---------S3 Service-----------");
@@ -55,11 +56,10 @@ public class S3Service {
 
             amazonS3.putObject(new PutObjectRequest(bucket,folder+fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (AmazonServiceException e) {
-            e.printStackTrace();
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
+
 
         //object 정보 가져오기
         ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
@@ -77,4 +77,29 @@ public class S3Service {
         System.out.println(prefix);
         return null;
     }
+
+//    private byte[] modifyFile(byte[] bytes) {
+//        // 파일 수정 코드 작성
+//        return bytes;
+//    }
+
+//    public String getFileKey(Long id) {
+//        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid menu id"));
+//        return menu.getKey(); // 파일의 S3 Key 값 반환
+//    }
+//
+//    public String editFile(String key, MultipartFile file) throws IOException {
+//        ObjectMetadata metadata = new ObjectMetadata();
+//        metadata.setContentType(file.getContentType());
+//        metadata.setContentLength(file.getSize());
+//
+//        amazonS3.putObject(new PutObjectRequest(bucket, key, file.getInputStream(), metadata)
+//                .withCannedAcl(CannedAccessControlList.PublicRead));
+//
+//        return amazonS3.getUrl(bucket, key).toString();
+//    }
+//
+//    public void deleteFile(String key) {
+//        amazonS3.deleteObject(bucket, key);
+//    }
 }

@@ -1,11 +1,13 @@
 package com.example.cloneburgerking.repository;
 
-import com.example.cloneburgerking.entity.FileEntity;
+import com.example.cloneburgerking.entity.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.io.File;
+
+import java.util.List;
 
 @Repository
-public interface FileRepository extends JpaRepository<FileEntity, Long> {
+public interface MenuRepository extends JpaRepository<Menu, Long> {
+    List<Menu> findAll();
 
 }
