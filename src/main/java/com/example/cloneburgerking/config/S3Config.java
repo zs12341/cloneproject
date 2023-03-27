@@ -15,7 +15,7 @@ public class S3Config {
     @Value("${{ secrets.AWS_ACCESS_KEY }}")
     private String accessKey;
 
-    @Value("${ secrets.AWS_SECRET_ACCESS_KEY}")
+    @Value("${{ secrets.AWS_SECRET_ACCESS_KEY }}")
     private String secretKey;
 
     @Value("ap-northeast-2")

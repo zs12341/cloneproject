@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
-    @Value("${ secrets.S3_IMAGE_BUCKET }")
+    @Value("${{ secrets.S3_IMAGE_BUCKET }}")
     private String bucket;
     private final AmazonS3 amazonS3;
 
