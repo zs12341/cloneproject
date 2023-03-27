@@ -1,26 +1,26 @@
-//package com.example.cloneburgerking.dto;
-//
-//import com.example.cloneburgerking.entity.File;
-//import lombok.Getter;
-//
-//@Getter
-//public class MenuResponseDto {
-//
-//    private Long id;
-//
-//    private String productname;
-//
-//    private String productdetails;
-//
-//    private int price;
-//
-//    private String imageUrl;
-//
-////    public MenuResponseDto(File File) {
-////        this.id = File.id();
-////        this.productname = File.getProductname();
-////        this.productdetails = File.getProductdetails();
-////        this.price = File.getPrice();
-////        this.imageUrl = File.getImageUrl();
-////    }
-//}
+package com.example.cloneburgerking.dto;
+
+import com.example.cloneburgerking.entity.Menu;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class MenuResponseDto {
+    private Long id;
+    private String title;
+
+    private String url;
+
+    private Integer price;
+
+    private String category;
+
+    public MenuResponseDto(Menu menu) {
+        this.title = menu.getTitle();
+        this.url = menu.getS3Url();
+        this.category = menu.getCategory();
+        this.price = menu.getPrice();
+        this.id = menu.getId();
+    }
+}

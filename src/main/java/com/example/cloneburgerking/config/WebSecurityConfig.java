@@ -50,8 +50,7 @@ public class WebSecurityConfig {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-
-                .antMatchers(HttpMethod.GET, "/health").permitAll()
+                .antMatchers("/health").permitAll()
                 .antMatchers("/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/api/signup").permitAll()

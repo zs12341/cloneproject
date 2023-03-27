@@ -25,7 +25,7 @@ import java.util.Date;
 @Component
 @RequiredArgsConstructor
 public class JwtUtil {
-
+    public static final String NICKNAME = "nickname";
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
@@ -53,13 +53,14 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(String username, UserEnum role) {
+    public String createToken(String username,String nickname, UserEnum role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
                         .claim(AUTHORIZATION_KEY, role)
+                        .claim(NICKNAME, nickname)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
