@@ -1,6 +1,7 @@
 package com.example.cloneburgerking.service;
 
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.cloneburgerking.dto.MenuRequestDto;
 import com.example.cloneburgerking.dto.MenuResponseDto;
 
@@ -24,6 +25,7 @@ import java.util.List;
 public class MenuService {
     private final MenuRepository menuRepository;
 
+
     public void save(MenuRequestDto menuRequestDto) {
         System.out.println("---------file Service-----------");
         Menu menu = new Menu
@@ -46,28 +48,21 @@ public class MenuService {
         }
         return menuResponseDto;
     }
-
-//    @Transactional
-//    public MenuResponseDto createMenu (MenuRequestDto menuRequestDto, User user) {
-//        if (!user.getRole().equals(UserEnum.ADMIN))
-//            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-//        Menu menu = menuRepository.saveAndFlush(new Menu(menuRequestDto, user));
-//        return new MenuResponseDto(menu);
+//
+//    // S3와 DB를 같이 삭제하는 메소드
+//    public void deleteMenuAndFile(Menu menu) {
+//        String keyName = menu.getUploadFilePath() + "/" + menu.getUuidFileName();
+//
+//        boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
+//        if (isObjectExist) {
+//            amazonS3Client.deleteObject(bucket, keyName);
+//        }
+//        menuRepository.delete(menu);
 //    }
 
-//    @Transactional
-//    public MenuResponseDto updateMenu (Long id, MenuRequestDto menuRequestDto, User user) {
-//        Menu menu = menuRepository.findById(id).orElseThrow(
-//                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
-//        );
-//        if (!user.getRole().equals(UserEnum.ADMIN))
-//            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-//        menu.updateMenu(menuRequestDto);
-//        return new MenuResponseDto(menu);
-//    }
 
     @Transactional
-    public ResponseEntity<?> delete (Long id, User user) {
+    public ResponseEntity<?> delete(Long id, User user) {
         Menu menu = menuRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorCode.NOT_FOUND_USER)
         );
@@ -77,14 +72,6 @@ public class MenuService {
         SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("메뉴 삭제 성공!", HttpStatus.OK.value());
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
-
-//    public void updateUrl(Long id, String url) {
-//        Menu menu = menuRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid menu id"));
-//        menu.setS3Url(url);
-//        menuRepository.save(menu);
-//    }
-//
-//    public void delete(Long id) {
-//        menuRepository.deleteById(id);
-//    }
 }
+
+

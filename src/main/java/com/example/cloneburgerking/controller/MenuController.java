@@ -20,19 +20,9 @@ public class MenuController {
     public List<MenuResponseDto> getfilelist() {
         return menuService.getfilelist();
     }
-//
-//    //메뉴작성
-//    @PostMapping("/api/menus")
-//    public MenuResponseDto createMenu (@RequestBody MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return menuService.createMenu(menuRequestDto,userDetails.getUser());
-//    }
 
-//    //메뉴수정
-//    @PatchMapping("/api/menus/{id}")
-//    public MenuResponseDto updateMenu (@PathVariable Long id, MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return menuService.updateMenu(id, menuRequestDto, userDetails.getUser());
-//    }
-    //메뉴삭제
+
+//    메뉴삭제
     @DeleteMapping("/api/menus/{id}")
     public ResponseEntity<?> delete (@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return menuService.delete(id, userDetails.getUser());

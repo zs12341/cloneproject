@@ -34,6 +34,8 @@ public class UserService {
     public ResponseEntity<SecurityExceptionDto> signup(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
+        String nickname = signupRequestDto.getNickname();
+        String email = signupRequestDto.getEmail();
 
         // 회원 중복 확인
         Optional<User> found = userRepository.findByUsername(username);
@@ -49,7 +51,8 @@ public class UserService {
             role = UserEnum.ADMIN;
         }
 
-        User user = new User(username,password, role);
+
+        User user = new User(username,password,role,nickname,email);
 
         userRepository.save(user);
 
@@ -72,8 +75,9 @@ public class UserService {
             throw  new CustomException(ErrorCode.NOT_FOUND_USER);
         }
         SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("로그인 성공!", HttpStatus.OK.value());
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(),user.getRole()));
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(),user.getNickname(),user.getRole()));
 
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
+
 }

@@ -14,7 +14,4 @@ public class SecurityExceptionDto {
         this.statusCode = statusCode;
     }
 
-    public SecurityExceptionDto() {
-
-    }
 }
