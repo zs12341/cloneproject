@@ -70,12 +70,12 @@ public class UserService {
 
         // 사용자 확인
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
+                () -> new CustomException(ErrorCode.UNAUTHORIZED_MEMBER)
         );
 
         // 비밀번호 확인
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw  new CustomException(ErrorCode.NOT_FOUND_USER);
+            throw  new CustomException(ErrorCode.INVAILD_PASSWORD);
         }
         SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("로그인 성공!", HttpStatus.OK.value());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(),user.getRole()));
