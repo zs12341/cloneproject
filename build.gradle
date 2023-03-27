@@ -41,6 +41,9 @@ dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
     compileOnly 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
+    // thymeleaf
+    compileOnly 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 }
 
 tasks.named('test') {
