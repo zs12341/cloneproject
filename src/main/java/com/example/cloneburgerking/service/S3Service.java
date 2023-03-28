@@ -6,6 +6,9 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.example.cloneburgerking.entity.Menu;
 import com.example.cloneburgerking.repository.MenuRepository;
+import com.example.cloneburgerking.status.CustomException;
+import com.example.cloneburgerking.status.ErrorCode;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +28,10 @@ public class S3Service {
     private String bucket;
     private final AmazonS3 amazonS3;
 
+
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         System.out.println("---------S3 Service-----------");
-        String folder = "";
+
         String fileName = multipartFile.getOriginalFilename();
 
         //파일 형식 구하기
@@ -38,19 +42,19 @@ public class S3Service {
         switch (ext) {
             case "jpeg" -> {
                 contentType = "image/jpeg";
-                folder = "img/";
+
             }
             case "png" -> {
                 contentType = "image/png";
-                folder = "img/";
+
             }
             case "txt" -> {
                 contentType = "text/plain";
-                folder = "txt/";
+
             }
             case "csv" -> {
                 contentType = "text/csv";
-                folder = "csv/";
+
             }
         }
 
@@ -58,7 +62,7 @@ public class S3Service {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
 
-            amazonS3.putObject(new PutObjectRequest(bucket, folder + fileName, multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket,fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (SdkClientException e) {
             e.printStackTrace();
@@ -81,6 +85,11 @@ public class S3Service {
         System.out.println(prefix);
         return null;
     }
+
+    public void deleteFile(String key) {
+        amazonS3.deleteObject(bucket, key);
+    }
+
 
 
 }
