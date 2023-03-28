@@ -3,6 +3,7 @@ package com.example.cloneburgerking.controller;
 
 import com.example.cloneburgerking.dto.MenuRequestDto;
 import com.example.cloneburgerking.dto.MenuResponseDto;
+import com.example.cloneburgerking.dto.SecurityExceptionDto;
 import com.example.cloneburgerking.security.UserDetailsImpl;
 import com.example.cloneburgerking.service.MenuService;
 import com.example.cloneburgerking.service.S3Service;
@@ -30,8 +31,8 @@ public class MenuController {
         String url = s3Service.uploadFile(menuRequestDto.getFile());
         menuRequestDto.setUrl(url);
         menuService.save(menuRequestDto,userDetails.getUser());
-
-        return ResponseEntity.status(HttpStatus.OK).body("업로드 성공했습니다.");
+        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 성공!", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
 
     //전체조회
@@ -44,7 +45,8 @@ public class MenuController {
     @DeleteMapping("/api/delete/{id}")
     public ResponseEntity<?> deleteMenu(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails ) {
         menuService.deleteData(id, userDetails.getUser());
-        return ResponseEntity.status(HttpStatus.OK).body("삭제 성공!");
+        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("삭제 성공!", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
     //S3 및 DB 수정
     @PatchMapping("/api/update/{id}")
@@ -52,7 +54,8 @@ public class MenuController {
             (@PathVariable Long id, MenuRequestDto requestDto, MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails)
             throws IOException {
             menuService.updateMenu(id, requestDto, file, userDetails.getUser());
-            return ResponseEntity.status(HttpStatus.OK).body("수정 성공!");
+            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
 
     }
 }

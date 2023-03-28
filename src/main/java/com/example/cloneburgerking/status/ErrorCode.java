@@ -19,6 +19,7 @@ public enum ErrorCode {
     UNAUTHORIZED_MEMBER(HttpStatus.UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
 
     ROLE_NOT_EXISTS(HttpStatus.UNAUTHORIZED,  "관리자 계정이 아닙니다."),
+    ROLE_NOT_PASSWORD(HttpStatus.BAD_REQUEST,"관리자 암호가 틀려 등록이 불가능합니다."),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),

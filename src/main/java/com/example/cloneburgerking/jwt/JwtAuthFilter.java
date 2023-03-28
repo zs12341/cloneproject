@@ -1,5 +1,7 @@
 package com.example.cloneburgerking.jwt;
 
+import com.example.cloneburgerking.status.CustomException;
+import com.example.cloneburgerking.status.ErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // token 유효성 검사 token null 일때?
         if (token != null) {
             if (!jwtUtil.validateToken(token)){
-                throw new JwtException("토큰이 유효하지 않습니다.");
+                throw new CustomException(ErrorCode.INVALID_TOKEN);
             }
             Claims info = jwtUtil.getUserInfoFromToken(token);
             // 인증 객체 생성
