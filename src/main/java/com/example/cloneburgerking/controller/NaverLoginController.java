@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,7 +24,7 @@ import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.Map;
 
-@Controller
+@RestController
 public class NaverLoginController {
 
     @Value("${CLIENT_ID}")
@@ -40,7 +42,7 @@ public class NaverLoginController {
      * @throws UnsupportedEncodingException
      * @throws UnknownHostException
      */
-    @RequestMapping("/naver")
+    @RequestMapping(value = "/naver", method = RequestMethod.GET)
     public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
         String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback", "UTF-8");
         SecureRandom random = new SecureRandom();
@@ -61,7 +63,7 @@ public class NaverLoginController {
      * @throws IOException
      * @throws ParseException
      */
-    @RequestMapping("/naver/callback")
+    @RequestMapping(value = "/naver/callback", method = RequestMethod.GET)
     public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
         String code = request.getParameter("code");
         String state = request.getParameter("state");

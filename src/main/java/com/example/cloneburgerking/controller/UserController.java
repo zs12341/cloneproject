@@ -40,13 +40,13 @@ public class UserController {
         return userService.login(loginRequestDto, response);
     }
 
-    @ResponseBody
+   /* @ResponseBody
     @GetMapping("/kakao")
     public void  kakaoCallback(@RequestParam String code) throws Exception {
 
         String access_Token = userService.getKaKaoAccessToken(code);
         userService.createKakaoUser(access_Token);
 
-    }
+    }*/
 
 }
