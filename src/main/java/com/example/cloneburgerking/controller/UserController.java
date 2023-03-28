@@ -36,11 +36,9 @@ public class UserController {
         return userService.signup(signupRequestDto);
     }
 
-//    @ApiOperation(value = "로그인 테스트", notes = "로그인 테스트")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.login(loginRequestDto, response);
     }
-
 
 }
