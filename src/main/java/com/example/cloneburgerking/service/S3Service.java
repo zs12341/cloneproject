@@ -44,19 +44,15 @@ public class S3Service {
         switch (ext) {
             case "jpeg" -> {
                 contentType = "image/jpeg";
-
             }
             case "png" -> {
                 contentType = "image/png";
-
             }
             case "txt" -> {
                 contentType = "text/plain";
-
             }
             case "csv" -> {
                 contentType = "text/csv";
-
             }
         }
 

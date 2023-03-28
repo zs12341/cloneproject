@@ -29,7 +29,7 @@ public class MenuController {
 
     //S3 업로드
     @PostMapping("/api/upload")
-    public ResponseEntity<?> uploadFile(MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+    public ResponseEntity<?> uploadFile(MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         try {
             String url = s3Service.uploadFile(menuRequestDto.getFile());
             menuRequestDto.setUrl(url);

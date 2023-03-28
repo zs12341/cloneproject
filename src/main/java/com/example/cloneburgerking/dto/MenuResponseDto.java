@@ -13,7 +13,7 @@ public class MenuResponseDto {
 
     private String url;
 
-    private Integer price;
+    private String price;
 
     private String category;
 

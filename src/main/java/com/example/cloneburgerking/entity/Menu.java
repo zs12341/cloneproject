@@ -27,7 +27,7 @@ public class Menu {
     private String s3Url;
 
     @Column
-    private Integer price;
+    private String price;
     @Column
     private String category;
     @ManyToOne
