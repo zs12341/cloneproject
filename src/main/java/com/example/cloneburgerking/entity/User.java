@@ -19,8 +19,6 @@ public class User {
     @Column(nullable = false)
     private String username;
 
-    @Column Long kakaoId;
-
     @Column(nullable = false)
     private String password;
     @Column(nullable = true)
@@ -40,18 +38,7 @@ public class User {
         this.nickname = nickname;
         this.email = email;
     }
-    public User(String username, Long kakaoId, String password, String email, UserEnum role) {
-        this.username = username;
-        this.kakaoId = kakaoId;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-    }
 
-    public User kakaoIdUpdate(Long kakaoId) {
-        this.kakaoId = kakaoId;
-        return this;
-    }
 
 
 }

@@ -22,21 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/signup")
-    public ModelAndView signupPage() {
-        return new ModelAndView("signup");
-    }
-
-    @GetMapping("/index")
-    public ModelAndView home() {
-    return new ModelAndView("index");
-}
-
-    @GetMapping("/login-page")
-    public ModelAndView loginPage() {
-    return new ModelAndView("login");
-}
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Validated @RequestBody SignupRequestDto signupRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -45,23 +30,9 @@ public class UserController {
         return userService.signup(signupRequestDto);
     }
 
-//    @ApiOperation(value = "로그인 테스트", notes = "로그인 테스트")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.login(loginRequestDto, response);
-    }
-
-    @GetMapping("/callback")
-    public String kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
-        // code: 카카오 서버로부터 받은 인가 코드
-        String createToken = kakaoService.kakaoLogin(code, response);
-
-        // Cookie 생성 및 직접 브라우저에 Set
-        Cookie cookie = new Cookie(jwtUtil.AUTHORIZATION_HEADER, createToken.substring(7));
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
-        return "redirect:/index";
     }
 
 }
