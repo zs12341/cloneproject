@@ -1,3 +1,4 @@
+/*
 package com.example.cloneburgerking.controller;
 
 import org.apache.tomcat.util.json.JSONParser;
@@ -34,14 +35,16 @@ public class NaverLoginController {
     private String CLI_SECRET; //애플리케이션 클라이언트 시크릿값";
 
 
-    /**
+    */
+/**
      * 로그인 화면이 있는 페이지 컨트롤
      * @param session
      * @param model
      * @return
      * @throws UnsupportedEncodingException
      * @throws UnknownHostException
-     */
+     *//*
+
     @RequestMapping("/naver")
     public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
         String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback", "UTF-8");
@@ -54,7 +57,8 @@ public class NaverLoginController {
         model.addAttribute("apiURL", apiURL);
         return "test-naver";
     }
-    /**
+    */
+/**
      * 콜백 페이지 컨트롤러
      * @param session
      * @param request
@@ -62,7 +66,8 @@ public class NaverLoginController {
      * @return
      * @throws IOException
      * @throws ParseException
-     */
+     *//*
+
     @RequestMapping("/naver/callback")
     public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
         String code = request.getParameter("code");
@@ -89,7 +94,8 @@ public class NaverLoginController {
         }
         return "test-naver-callback";
     }
-    /**
+    */
+/**
      * 토큰 갱신 요청 페이지 컨트롤러
      * @param session
      * @param request
@@ -98,7 +104,8 @@ public class NaverLoginController {
      * @return
      * @throws IOException
      * @throws ParseException
-     */
+     *//*
+
     @RequestMapping("/naver/refreshToken")
     public String refreshToken(HttpSession session, HttpServletRequest request, Model model, String refreshToken) throws IOException, ParseException {
         String apiURL;
@@ -112,7 +119,8 @@ public class NaverLoginController {
         session.invalidate();
         return "test-naver-callback";
     }
-    /**
+    */
+/**
      * 토큰 삭제 컨트롤러
      * @param session
      * @param request
@@ -120,7 +128,8 @@ public class NaverLoginController {
      * @param accessToken
      * @return
      * @throws IOException
-     */
+     *//*
+
     @RequestMapping("/naver/deleteToken")
     public String deleteToken(HttpSession session, HttpServletRequest request, Model model, String accessToken) throws IOException {
         String apiURL;
@@ -135,12 +144,14 @@ public class NaverLoginController {
         session.invalidate();
         return "test-naver-callback";
     }
-    /**
+    */
+/**
      * 액세스 토큰으로 네이버에서 프로필 받기
      * @param accessToken
      * @return
      * @throws IOException
-     */
+     *//*
+
     @ResponseBody
     @RequestMapping("/naver/getProfile")
     public String getProfileFromNaver(String accessToken) throws IOException {
@@ -150,32 +161,38 @@ public class NaverLoginController {
         String res = requestToServer(apiURL, headerStr);
         return res;
     }
-    /**
+    */
+/**
      * 세션 무효화(로그아웃)
      * @param session
      * @return
-     */
+     *//*
+
     @RequestMapping("/naver/invalidate")
     public String invalidateSession(HttpSession session) {
         session.invalidate();
         return "redirect:/test-naver-callback";
     }
-    /**
+    */
+/**
      * 서버 통신 메소드
      * @param apiURL
      * @return
      * @throws IOException
-     */
+     *//*
+
     private String requestToServer(String apiURL) throws IOException {
         return requestToServer(apiURL, "");
     }
-    /**
+    */
+/**
      * 서버 통신 메소드
      * @param apiURL
      * @param headerStr
      * @return
      * @throws IOException
-     */
+     *//*
+
     private String requestToServer(String apiURL, String headerStr) throws IOException {
         URL url = new URL(apiURL);
         HttpURLConnection con = (HttpURLConnection)url.openConnection();
@@ -204,4 +221,4 @@ public class NaverLoginController {
             return null;
         }
     }
-}
+}*/
