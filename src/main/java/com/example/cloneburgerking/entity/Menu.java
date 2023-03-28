@@ -51,4 +51,10 @@ public class Menu {
                 '}';
     }
 
+    public void textUpdate(MenuRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.category = requestDto.getCategory();
+        this.price = requestDto.getPrice();
+    }
+
 }
