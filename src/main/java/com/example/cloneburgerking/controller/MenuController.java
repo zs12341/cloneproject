@@ -30,11 +30,16 @@ public class MenuController {
     //S3 업로드
     @PostMapping("/api/upload")
     public ResponseEntity<?> uploadFile(MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-        String url = s3Service.uploadFile(menuRequestDto.getFile());
-        menuRequestDto.setUrl(url);
-        menuService.save(menuRequestDto,userDetails.getUser());
-        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 성공!", HttpStatus.OK.value());
-        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+        try {
+            String url = s3Service.uploadFile(menuRequestDto.getFile());
+            menuRequestDto.setUrl(url);
+            menuService.save(menuRequestDto,userDetails.getUser());
+            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 성공!", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+        } catch (Exception e) {
+            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 실패!", HttpStatus.INTERNAL_SERVER_ERROR.value());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(securityExceptionDto);
+        }
     }
 
     //전체조회
