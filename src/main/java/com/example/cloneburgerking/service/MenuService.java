@@ -25,6 +25,8 @@ import java.util.List;
 public class MenuService {
     private final MenuRepository menuRepository;
 
+    private final S3Service s3Service;
+
 
     public void save(MenuRequestDto menuRequestDto) {
         System.out.println("---------file Service-----------");
@@ -48,30 +50,21 @@ public class MenuService {
         }
         return menuResponseDto;
     }
-//
-//    // S3와 DB를 같이 삭제하는 메소드
-//    public void deleteMenuAndFile(Menu menu) {
-//        String keyName = menu.getUploadFilePath() + "/" + menu.getUuidFileName();
-//
-//        boolean isObjectExist = amazonS3Client.doesObjectExist(bucket, keyName);
-//        if (isObjectExist) {
-//            amazonS3Client.deleteObject(bucket, keyName);
-//        }
-//        menuRepository.delete(menu);
-//    }
+    public void deleteData(Long id) {
+        // id로 데이터를 조회
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("해당 데이터가 존재하지 않습니다."));
 
+        // S3에서 해당 파일을 삭제
+        String url = menu.getS3Url();
+        String fileName = url.substring(url.lastIndexOf("/") + 1);
+        s3Service.deleteFile(fileName);  // S3Service에서 해당 파일을 삭제하는 로직이 구현되어 있다고 가정합니다.
 
-    @Transactional
-    public ResponseEntity<?> delete(Long id, User user) {
-        Menu menu = menuRepository.findById(id).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
-        );
-        if (!user.getRole().equals(UserEnum.ADMIN))
-            throw new CustomException(ErrorCode.NOT_FOUND_USER);
-        menuRepository.deleteById(id);
-        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("메뉴 삭제 성공!", HttpStatus.OK.value());
-        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+        // DB에서 데이터를 삭제
+        menuRepository.delete(menu);
     }
+
+
 }
 
 
