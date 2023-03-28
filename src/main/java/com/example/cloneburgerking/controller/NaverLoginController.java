@@ -27,10 +27,10 @@ import java.util.Map;
 @RestController
 public class NaverLoginController {
 
-    @Value("${CLIENT_ID}")
+    @Value("${spring.security.oauth2.client.registration.naver.client-id}")
     private String CLIENT_ID; //애플리케이션 클라이언트 아이디값";
 
-    @Value("${CLI_SECRET}")
+    @Value("${spring.security.oauth2.client.registration.naver.client-secret}")
     private String CLI_SECRET; //애플리케이션 클라이언트 시크릿값";
 
 
