@@ -2,20 +2,15 @@ package com.example.cloneburgerking.controller;
 
 import com.example.cloneburgerking.dto.LoginRequestDto;
 import com.example.cloneburgerking.dto.SignupRequestDto;
-import com.example.cloneburgerking.jwt.JwtUtil;
-import com.example.cloneburgerking.kakao.KakaoService;
 import com.example.cloneburgerking.service.UserService;
 import com.example.cloneburgerking.status.CustomException;
 import com.example.cloneburgerking.status.ErrorCode;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -26,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     private final UserService userService;
-    private final KakaoService kakaoService;
-    private final JwtUtil jwtUtil;
 
     @GetMapping("/signup")
     public ModelAndView signupPage() {
