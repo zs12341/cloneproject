@@ -52,6 +52,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/health").permitAll()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .antMatchers("/api/signup").permitAll()
                 .antMatchers("/api/login").permitAll()
                 .anyRequest().authenticated()

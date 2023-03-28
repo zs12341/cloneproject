@@ -9,6 +9,9 @@ import com.example.cloneburgerking.jwt.JwtUtil;
 import com.example.cloneburgerking.repository.UserRepository;
 import com.example.cloneburgerking.status.CustomException;
 import com.example.cloneburgerking.status.ErrorCode;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
 
 @Service
@@ -67,17 +73,16 @@ public class UserService {
 
         // 사용자 확인
         User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new CustomException(ErrorCode.NOT_FOUND_USER)
+                () -> new CustomException(ErrorCode.UNAUTHORIZED_MEMBER)
         );
 
         // 비밀번호 확인
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw  new CustomException(ErrorCode.NOT_FOUND_USER);
+            throw  new CustomException(ErrorCode.INVAILD_PASSWORD);
         }
         SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("로그인 성공!", HttpStatus.OK.value());
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(),user.getNickname(),user.getRole()));
 
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
-
 }
