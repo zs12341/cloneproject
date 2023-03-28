@@ -30,14 +30,17 @@ public class Menu {
     private Integer price;
     @Column
     private String category;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", nullable = false)
+    private User user;
 
 
-    public Menu(MenuRequestDto menuRequestDto) {
+    public Menu(MenuRequestDto menuRequestDto, User user) {
         this.title = menuRequestDto.getTitle();
         this.s3Url = menuRequestDto.getUrl();
         this.category = menuRequestDto.getCategory();
         this.price = menuRequestDto.getPrice();
-
+        this.user =user;
     }
 
     public String toString() {

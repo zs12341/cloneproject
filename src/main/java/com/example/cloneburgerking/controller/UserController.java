@@ -22,10 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-
-
-//    @ApiOperation(value = "회원가입 테스트", notes = "회원가입 테스트")
-
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@Validated @RequestBody SignupRequestDto signupRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -34,19 +30,9 @@ public class UserController {
         return userService.signup(signupRequestDto);
     }
 
-//    @ApiOperation(value = "로그인 테스트", notes = "로그인 테스트")
     @PostMapping("/login")
     public ResponseEntity<?> login(@Validated @RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
         return userService.login(loginRequestDto, response);
     }
-
-   /* @ResponseBody
-    @GetMapping("/kakao")
-    public void  kakaoCallback(@RequestParam String code) throws Exception {
-
-        String access_Token = userService.getKaKaoAccessToken(code);
-        userService.createKakaoUser(access_Token);
-
-    }*/
 
 }
