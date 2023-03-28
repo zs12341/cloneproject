@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,7 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
     private final AmazonS3 amazonS3;
+
 
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
@@ -62,12 +64,11 @@ public class S3Service {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
 
-            amazonS3.putObject(new PutObjectRequest(bucket,fileName, multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
-
 
         //object 정보 가져오기
         ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
@@ -79,18 +80,11 @@ public class S3Service {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
-    public List<String> allFolders() {
-        ListObjectsV2Request listObjectsV2Request = new ListObjectsV2Request().withBucketName(bucket);
-        String prefix = listObjectsV2Request.getDelimiter();
-        System.out.println(prefix);
-        return null;
-    }
-
     public void deleteFile(String key) {
         amazonS3.deleteObject(bucket, key);
     }
 
-
-
 }
+
+
 

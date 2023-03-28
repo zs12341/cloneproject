@@ -15,7 +15,10 @@ public enum ErrorCode {
 
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     INVALID_AUTH_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
+
     UNAUTHORIZED_MEMBER(HttpStatus.UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),
+
+    ROLE_NOT_EXISTS(HttpStatus.UNAUTHORIZED,  "관리자 계정이 아닙니다."),
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
@@ -27,10 +30,9 @@ public enum ErrorCode {
     NOT_FOUND_USER_ID(HttpStatus.BAD_REQUEST, "이미 가입된 아이디가 존재합니다."),
 
     NOT_FOUND_BOARD_ADMIN(HttpStatus.BAD_REQUEST, "게시물을 찾을 수 없습니다.(관리자계정)"),
+    NOT_FOUND_DATA(HttpStatus.BAD_REQUEST, "해당 데이터를 존재하지 않습니다."),
 
-    NOT_FOUND_SIGNUP_USER(HttpStatus.BAD_REQUEST, "회원가입 형식이 맞지 않습니다."),
-
-    HEART_Not_found_Exception(HttpStatus.NOT_FOUND, "좋아요 기록을 찾을 수 없습니다.커밋용 !!!!");
+    NOT_FOUND_SIGNUP_USER(HttpStatus.BAD_REQUEST, "회원가입 형식이 맞지 않습니다.");
 
 
 
