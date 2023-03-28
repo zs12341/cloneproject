@@ -3,6 +3,7 @@ package com.example.cloneburgerking.dto;
 import com.example.cloneburgerking.entity.Menu;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ public class MenuResponseDto {
     private Integer price;
 
     private String category;
+
 
     public MenuResponseDto(Menu menu) {
         this.title = menu.getTitle();

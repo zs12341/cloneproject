@@ -8,8 +8,10 @@ import com.example.cloneburgerking.security.UserDetailsImpl;
 import com.example.cloneburgerking.service.MenuService;
 import com.example.cloneburgerking.service.S3Service;
 import com.example.cloneburgerking.status.ErrorCode;
+import groovyjarjarantlr4.v4.runtime.misc.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -49,13 +51,22 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
     //S3 및 DB 수정
-    @PatchMapping("/api/update/{id}")
-    public ResponseEntity<?> updateMenu
-            (@PathVariable Long id, MenuRequestDto requestDto, MultipartFile file, @AuthenticationPrincipal UserDetailsImpl userDetails)
-            throws IOException {
-            menuService.updateMenu(id, requestDto, file, userDetails.getUser());
-            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
-            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+    @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateMenu(@PathVariable Long id,
+                                        @Nullable @RequestPart  MenuRequestDto requestDto,
+                                        @Nullable @RequestPart  MultipartFile file,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
 
+        if (file.isEmpty()) {
+            menuService.textUpdate(id, requestDto, userDetails.getUser());
+            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+        }
+        menuService.fileUpdate(id, requestDto, userDetails.getUser(), file);
+
+        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
+
+
 }

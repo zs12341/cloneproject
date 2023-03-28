@@ -13,7 +13,6 @@ public class MenuRequestDto {
 
     private Integer price;
     private MultipartFile file;
-
     private String category;
 
 
