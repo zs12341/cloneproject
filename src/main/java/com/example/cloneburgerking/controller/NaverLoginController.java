@@ -4,11 +4,11 @@ import org.apache.tomcat.util.json.JSONParser;
 import org.apache.tomcat.util.json.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,7 +24,7 @@ import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.Map;
 
-@RestController
+@Controller
 public class NaverLoginController {
 
     @Value("${spring.security.oauth2.client.registration.naver.client-id}")
@@ -42,9 +42,9 @@ public class NaverLoginController {
      * @throws UnsupportedEncodingException
      * @throws UnknownHostException
      */
-    @RequestMapping(value = "/join", method = RequestMethod.GET)
+    @RequestMapping("/naver")
     public String testNaver(HttpSession session, Model model) throws UnsupportedEncodingException, UnknownHostException {
-        String redirectURI = URLEncoder.encode("http://localhost:3000/deliveryHome", "UTF-8");
+        String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback", "UTF-8");
         SecureRandom random = new SecureRandom();
         String state = new BigInteger(130, random).toString();
         String apiURL = "https://nid.naver.com/oauth2.0/authorize?response_type=code";
@@ -52,7 +52,7 @@ public class NaverLoginController {
                 CLIENT_ID, redirectURI, state);
         session.setAttribute("state", state);
         model.addAttribute("apiURL", apiURL);
-        return "join";
+        return "test-naver";
     }
     /**
      * 콜백 페이지 컨트롤러
@@ -63,11 +63,11 @@ public class NaverLoginController {
      * @throws IOException
      * @throws ParseException
      */
-    @RequestMapping(value = "/deliveryHome", method = RequestMethod.GET)
+    @RequestMapping("/naver/callback")
     public String naverCallback1(HttpSession session, HttpServletRequest request, Model model) throws IOException, ParseException {
         String code = request.getParameter("code");
         String state = request.getParameter("state");
-        String redirectURI = URLEncoder.encode("http://localhost:3000/deliveryHome", "UTF-8");
+        String redirectURI = URLEncoder.encode("http://localhost:8080/naver/callback", "UTF-8");
         String apiURL;
         apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
         apiURL += "client_id=" + CLIENT_ID;
@@ -87,7 +87,7 @@ public class NaverLoginController {
         } else {
             model.addAttribute("res", "Login failed!");
         }
-        return "deliveryHome";
+        return "test-naver-callback";
     }
     /**
      * 토큰 갱신 요청 페이지 컨트롤러
@@ -110,7 +110,7 @@ public class NaverLoginController {
         String res = requestToServer(apiURL);
         model.addAttribute("res", res);
         session.invalidate();
-        return "deliveryHome";
+        return "test-naver-callback";
     }
     /**
      * 토큰 삭제 컨트롤러
@@ -133,7 +133,7 @@ public class NaverLoginController {
         String res = requestToServer(apiURL);
         model.addAttribute("res", res);
         session.invalidate();
-        return "deliveryHome";
+        return "test-naver-callback";
     }
     /**
      * 액세스 토큰으로 네이버에서 프로필 받기
@@ -158,7 +158,7 @@ public class NaverLoginController {
     @RequestMapping("/naver/invalidate")
     public String invalidateSession(HttpSession session) {
         session.invalidate();
-        return "redirect:/deliveryHome";
+        return "redirect:/test-naver-callback";
     }
     /**
      * 서버 통신 메소드
