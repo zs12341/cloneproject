@@ -81,7 +81,7 @@ public class UserService {
             throw  new CustomException(ErrorCode.INVAILD_PASSWORD);
         }
         SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("로그인 성공!", HttpStatus.OK.value());
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(),user.getNickname(),user.getRole()));
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(String.valueOf(user.getKakaoId()), user.getUsername(),user.getNickname(),user.getRole()));
 
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
