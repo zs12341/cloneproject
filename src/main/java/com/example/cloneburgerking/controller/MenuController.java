@@ -58,8 +58,8 @@ public class MenuController {
     //S3 및 DB 수정
     @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateMenu(@PathVariable Long id,
-                                        @Nullable @RequestPart  MenuRequestDto requestDto,
-                                        @Nullable @RequestPart  MultipartFile file,
+                                        @Nullable @RequestPart("requestDto")  MenuRequestDto requestDto,
+                                        @Nullable @RequestPart("file")  MultipartFile file,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
 
         if (file.isEmpty()) {

@@ -3,7 +3,7 @@ package com.example.cloneburgerking.dto;
 import com.example.cloneburgerking.entity.Menu;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
+
 
 @Getter
 @Setter
