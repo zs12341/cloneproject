@@ -66,7 +66,7 @@ public class MenuController {
                                         @Nullable @RequestPart("file")  MultipartFile file,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         try {
-            if (file == null || file.isEmpty()) { // file이 비어있는 경우
+            if (file.getOriginalFilename() == null || file.isEmpty()) { // file이 비어있는 경우
                 menuService.textUpdate(id, requestDto, userDetails.getUser());
                 SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
                 return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
