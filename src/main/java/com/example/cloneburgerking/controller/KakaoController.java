@@ -29,6 +29,6 @@ public class KakaoController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/OAuth/Kakao";
+        return "deliveryHome";
     }
 }
