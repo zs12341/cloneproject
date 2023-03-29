@@ -60,35 +60,13 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
     //S3 및 DB 수정
-//    @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-//    public ResponseEntity<?> updateMenu(@PathVariable Long id,
-//                                        @Nullable @RequestPart("requestDto")  MenuRequestDto requestDto,
-//                                        @Nullable @RequestPart("file")  MultipartFile file,
-//                                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
-//        try {
-//            if (file.getOriginalFilename() == null || file.isEmpty()) { // file이 비어있는 경우
-//                menuService.textUpdate(id, requestDto, userDetails.getUser());
-//                SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
-//                return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
-//            }
-//            menuService.fileUpdate(id, requestDto, userDetails.getUser(), file); // file이 비어있지 않은 경우
-//
-//            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
-//            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
-//        } catch (Exception e) {
-//            // 예외 발생 시 로그 출력
-//            logger.error("Error occurred while updating menu: {}", e.getMessage(), e);
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred while updating menu");
-//        }
-//    }
-
-    @PatchMapping(value = "/api/update/{id}")
-    public ResponseEntity<?> updateMenu(@PathVariable Long id,
-                                        MenuRequestDto requestDto,
-                                        @RequestParam(required = false) MultipartFile file,
+    @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateMenu(@PathVariable("id") Long id,
+                                        @RequestPart("requestDto")  MenuRequestDto requestDto,
+                                        @RequestPart("file")  MultipartFile file,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         try {
-            if (file == null || file.isEmpty() || file.getOriginalFilename().isEmpty()) { // file이 비어있는 경우
+            if (file.getOriginalFilename() == "null" || file.isEmpty() || file == null) { // file이 비어있는 경우
                 menuService.textUpdate(id, requestDto, userDetails.getUser());
                 SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
                 return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
@@ -103,4 +81,5 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred while updating menu");
         }
     }
+
 }
