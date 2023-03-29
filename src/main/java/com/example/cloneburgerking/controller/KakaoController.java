@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 public class KakaoController {
     private final KakaoService kakaoService;
     private final JwtUtil jwtUtil;
-    //modify
+    //modify2
     @GetMapping("/OAuth/Kakao")
     public String kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException {
         // code: 카카오 서버로부터 받은 인가 코드
@@ -29,6 +29,6 @@ public class KakaoController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "redirect:/deliveryHome";
+        return "redirect:/OAuth/Kakao";
     }
 }
