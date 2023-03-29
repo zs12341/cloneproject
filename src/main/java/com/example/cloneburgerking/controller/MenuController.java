@@ -66,21 +66,19 @@ public class MenuController {
                                         @Nullable @RequestPart("file")  MultipartFile file,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         try {
-        if (file.isEmpty()) {
-            menuService.textUpdate(id, requestDto, userDetails.getUser());
-            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
-            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
-        }
-        menuService.fileUpdate(id, requestDto, userDetails.getUser(), file);
+            if (file == null || file.isEmpty()) { // file이 비어있는 경우
+                menuService.textUpdate(id, requestDto, userDetails.getUser());
+                SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
+                return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+            }
+            menuService.fileUpdate(id, requestDto, userDetails.getUser(), file); // file이 비어있지 않은 경우
 
-        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
-        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
+            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("수정 성공!", HttpStatus.OK.value());
+            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
         } catch (Exception e) {
             // 예외 발생 시 로그 출력
             logger.error("Error occurred while updating menu: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred while updating menu");
         }
-        }
-
-
+    }
 }
