@@ -40,8 +40,8 @@ public class User {
         this.nickname = nickname;
         this.email = email;
     }
-    public User(String username, Long kakaoId, String password, String email, UserEnum role) {
-        this.username = username;
+    public User(String nickname, Long kakaoId, String password, String email, UserEnum role) {
+        this.nickname = nickname;
         this.kakaoId = kakaoId;
         this.password = password;
         this.email = email;
