@@ -11,9 +11,8 @@ public class MenuRequestDto {
 
     private String url;
 
-    private Integer price;
+    private String price;
     private MultipartFile file;
-
     private String category;
 
 

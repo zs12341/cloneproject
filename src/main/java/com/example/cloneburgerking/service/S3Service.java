@@ -34,7 +34,7 @@ public class S3Service {
     public String uploadFile(MultipartFile multipartFile) throws IOException {
         System.out.println("---------S3 Service-----------");
 
-        String fileName = multipartFile.getOriginalFilename();
+        String fileName = UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
 
         //파일 형식 구하기
         String ext = fileName.split("\\.")[1];
@@ -44,19 +44,15 @@ public class S3Service {
         switch (ext) {
             case "jpeg" -> {
                 contentType = "image/jpeg";
-
             }
             case "png" -> {
                 contentType = "image/png";
-
             }
             case "txt" -> {
                 contentType = "text/plain";
-
             }
             case "csv" -> {
                 contentType = "text/csv";
-
             }
         }
 
@@ -69,6 +65,7 @@ public class S3Service {
         } catch (SdkClientException e) {
             e.printStackTrace();
         }
+
 
         //object 정보 가져오기
         ListObjectsV2Result listObjectsV2Result = amazonS3.listObjectsV2(bucket);
@@ -83,6 +80,18 @@ public class S3Service {
     public void deleteFile(String key) {
         amazonS3.deleteObject(bucket, key);
     }
+
+    public String uploadFile(String fileName, byte[] content, String contentType) {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType(contentType);
+
+        amazonS3.putObject(new PutObjectRequest(bucket, fileName, new ByteArrayInputStream(content), metadata)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return amazonS3.getUrl(bucket, fileName).toString();
+    }
+
+
 
 }
 

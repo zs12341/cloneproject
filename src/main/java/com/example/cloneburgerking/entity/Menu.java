@@ -27,7 +27,7 @@ public class Menu {
     private String s3Url;
 
     @Column
-    private Integer price;
+    private String price;
     @Column
     private String category;
     @ManyToOne
@@ -49,6 +49,12 @@ public class Menu {
                 ", title='" + title + '\'' +
                 ", s3Url='" + s3Url + '\'' +
                 '}';
+    }
+
+    public void textUpdate(MenuRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.category = requestDto.getCategory();
+        this.price = requestDto.getPrice();
     }
 
 }
