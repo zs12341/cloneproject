@@ -85,10 +85,10 @@ public class MenuController {
     @PatchMapping(value = "/api/update/{id}")
     public ResponseEntity<?> updateMenu(@PathVariable Long id,
                                         MenuRequestDto requestDto,
-                                        MultipartFile file,
+                                        @RequestParam(required = false) MultipartFile file,
                                         @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
         try {
-            if (file.getOriginalFilename() == null || file.isEmpty()) { // file이 비어있는 경우
+            if (file == null || file.isEmpty() || file.getOriginalFilename().isEmpty()) { // file이 비어있는 경우
                 menuService.textUpdate(id, requestDto, userDetails.getUser());
                 SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("텍스트 수정 성공!", HttpStatus.OK.value());
                 return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
