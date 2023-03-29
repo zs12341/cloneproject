@@ -60,7 +60,7 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
     //S3 및 DB 수정
-    @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PatchMapping(value = "/api/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateMenu(@PathVariable Long id,
                                         @Nullable @RequestPart("requestDto")  MenuRequestDto requestDto,
                                         @Nullable @RequestPart("file")  MultipartFile file,
