@@ -11,7 +11,7 @@ public class MenuResponseDto {
     private Long id;
     private String title;
 
-    private String url;
+    private String fileUrl;
 
     private String price;
 
@@ -20,7 +20,7 @@ public class MenuResponseDto {
 
     public MenuResponseDto(Menu menu) {
         this.title = menu.getTitle();
-        this.url = menu.getS3Url();
+        this.fileUrl = menu.getFileUrl();
         this.category = menu.getCategory();
         this.price = menu.getPrice();
         this.id = menu.getId();

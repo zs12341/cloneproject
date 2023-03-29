@@ -7,6 +7,7 @@ import com.example.cloneburgerking.dto.SecurityExceptionDto;
 import com.example.cloneburgerking.security.UserDetailsImpl;
 import com.example.cloneburgerking.service.MenuService;
 import com.example.cloneburgerking.service.S3Service;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import groovyjarjarantlr4.v4.runtime.misc.Nullable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,23 +28,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuController {
     private final MenuService menuService;
-    private final S3Service s3Service;
     private static final Logger logger = LoggerFactory.getLogger(MenuController.class);
 
 
     //S3 업로드
-    @PostMapping("/api/upload")
-    public ResponseEntity<?> uploadFile(MenuRequestDto menuRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        try {
-            String url = s3Service.uploadFile(menuRequestDto.getFile());
-            menuRequestDto.setUrl(url);
-            menuService.save(menuRequestDto,userDetails.getUser());
-            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 성공!", HttpStatus.OK.value());
-            return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
-        } catch (Exception e) {
-            SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("업로드 실패!", HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(securityExceptionDto);
-        }
+    @PostMapping(value = "/api/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createMenu(@RequestPart("requestDto") MenuRequestDto requestDto,
+                                        @RequestParam("file") MultipartFile file,
+                                        @AuthenticationPrincipal UserDetailsImpl userDetails) throws IOException {
+        menuService.save(requestDto, userDetails.getUser(), file);
+        SecurityExceptionDto securityExceptionDto = new SecurityExceptionDto("메뉴 등록 성공!", HttpStatus.OK.value());
+        return ResponseEntity.status(HttpStatus.OK).body(securityExceptionDto);
     }
 
     //전체조회
