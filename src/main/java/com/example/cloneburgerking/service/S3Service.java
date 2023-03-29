@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,10 +33,10 @@ public class S3Service {
 
 
 
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
+    public String uploadFile(MultipartFile File) throws IOException {
         System.out.println("---------S3 Service-----------");
 
-        String fileName = UUID.randomUUID().toString() + "_" + multipartFile.getOriginalFilename();
+        String fileName = UUID.randomUUID().toString() + "_" + File.getOriginalFilename();
 
         //파일 형식 구하기
         String ext = fileName.split("\\.")[1];
@@ -60,7 +62,7 @@ public class S3Service {
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
 
-            amazonS3.putObject(new PutObjectRequest(bucket, fileName, multipartFile.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, fileName, File.getInputStream(), metadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (SdkClientException e) {
             e.printStackTrace();
@@ -77,9 +79,7 @@ public class S3Service {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
-    public void deleteFile(String key) {
-        amazonS3.deleteObject(bucket, key);
-    }
+
 
     public String uploadFile(String fileName, byte[] content, String contentType) {
         ObjectMetadata metadata = new ObjectMetadata();
@@ -91,7 +91,10 @@ public class S3Service {
         return amazonS3.getUrl(bucket, fileName).toString();
     }
 
-}
+    public void deleteFile(String key) {
+        amazonS3.deleteObject(bucket, key);
+    }
 
+}
 
 

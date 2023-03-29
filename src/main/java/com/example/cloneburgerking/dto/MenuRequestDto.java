@@ -8,11 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class MenuRequestDto {
     private String title;
-
-    private String url;
-
     private String price;
-    private MultipartFile file;
     private String category;
 
 

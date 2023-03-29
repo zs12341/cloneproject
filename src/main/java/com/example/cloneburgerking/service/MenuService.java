@@ -30,12 +30,19 @@ public class MenuService {
     private final S3Service s3Service;
 
     @Transactional
-    public void save(MenuRequestDto menuRequestDto, User user) {
-        if (!user.getRole().equals(UserEnum.ADMIN))
+    public void save(MenuRequestDto menuRequestDto, User user, MultipartFile file) throws IOException {
+        if (!user.getRole().equals(UserEnum.ADMIN)) {
             throw new CustomException(ErrorCode.ROLE_NOT_EXISTS);
+        }
         Menu menu = new Menu(menuRequestDto, user);
+        if (file != null) {
+            String fileUrl = s3Service.uploadFile(file);
+            menu.setFileUrl(fileUrl);
+        }
         menuRepository.save(menu);
     }
+
+
 
     //전체메뉴조회
     @Transactional
@@ -57,7 +64,7 @@ public class MenuService {
         if (!user.getRole().equals(UserEnum.ADMIN))
             throw new CustomException(ErrorCode.ROLE_NOT_EXISTS);
         // S3에서 해당 파일을 삭제
-        String url = menu.getS3Url();
+        String url = menu.getFileUrl();
         String fileName = url.substring(url.lastIndexOf("/") + 1);
         s3Service.deleteFile(fileName);  // S3Service에서 해당 파일을 삭제하는 로직이 구현
 
@@ -75,7 +82,7 @@ public class MenuService {
             throw new CustomException(ErrorCode.ROLE_NOT_EXISTS);
         // S3에서 기존 파일 삭제
         System.out.println("============기존파일삭제=============");
-        String url = menu.getS3Url();
+        String url = menu.getFileUrl();
         if (url != null) {
             String fileName = url.substring(url.lastIndexOf("/") + 1);
             s3Service.deleteFile(fileName);
@@ -87,7 +94,7 @@ public class MenuService {
         if (file != null) {
             System.out.println("============파일업로드=============");
             String fileUrl = s3Service.uploadFile(file.getOriginalFilename(), file.getBytes(), file.getContentType());
-            menu.setS3Url(fileUrl);
+            menu.setFileUrl(fileUrl);
         }
         System.out.println("============업데이트=============");
         // DB에서 데이터를 업데이트
@@ -120,14 +127,14 @@ public class MenuService {
         if (!user.getRole().equals(UserEnum.ADMIN))
             throw new CustomException(ErrorCode.ROLE_NOT_EXISTS);
 
-        String url = menu.getS3Url();
+        String url = menu.getFileUrl();
         if (url != null) {
             String fileName = url.substring(url.lastIndexOf("/") + 1);
             s3Service.deleteFile(fileName);
         }
         if (file != null) {
             String fileUrl = s3Service.uploadFile(file.getOriginalFilename(), file.getBytes(), file.getContentType());
-            menu.setS3Url(fileUrl);
+            menu.setFileUrl(fileUrl);
         }
 
         menu.setPrice(requestDto.getPrice());
