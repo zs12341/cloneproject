@@ -76,5 +76,4 @@ public class MenuController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error occurred while updating menu");
         }
     }
-
 }
