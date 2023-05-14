@@ -12,7 +12,7 @@
 -------
 ## 1.  Branch 전략
 -----------
-#### Github Flow
+#### Git Flow
 
 --------
 ## 2. Commit Message Convention
